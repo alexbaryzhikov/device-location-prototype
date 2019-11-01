@@ -1,18 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
     <TextView
+        android:id="@+id/latitudeCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_margin="@dimen/margin_small"
+        android:text="@string/latitude"
+        app:layout_constraintBottom_toTopOf="@id/longitudeCaption"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/latitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/latitudeCaption"
+        app:layout_constraintStart_toEndOf="@id/verticalGuideline"
+        tools:text="12345" />
+
+    <TextView
+        android:id="@+id/longitudeCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:text="@string/longitude"
+        app:layout_constraintBottom_toTopOf="@id/lastUpdateCaption"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/latitudeCaption" />
+
+    <TextView
+        android:id="@+id/longitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/longitudeCaption"
+        app:layout_constraintStart_toEndOf="@id/verticalGuideline"
+        tools:text="12345" />
+
+    <TextView
+        android:id="@+id/lastUpdateCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:text="@string/last_update"
+        app:layout_constraintBottom_toTopOf="@id/displayOnMapButton"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/longitudeCaption" />
+
+    <TextView
+        android:id="@+id/lastUpdateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/lastUpdateCaption"
+        app:layout_constraintStart_toEndOf="@id/verticalGuideline"
+        tools:text="12345" />
+
+    <Button
+        android:id="@+id/displayOnMapButton"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_big"
+        android:text="@string/display_on_map"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lastUpdateCaption" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
