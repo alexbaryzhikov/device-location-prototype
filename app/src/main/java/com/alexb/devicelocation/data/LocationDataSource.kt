@@ -27,10 +27,12 @@ class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
         locationSupervisor.stopPeriodicUpdates()
     }
 
-    private fun updateLocation(location: Location) {
-        logLocationUpdate(location)
-        lastLocation = location
-        locationLiveData.value = location
+    private fun updateLocation(location: Location?) {
+        if (location != null) {
+            logLocationUpdate(location)
+            lastLocation = location
+            locationLiveData.value = location
+        }
     }
 
     private fun logLocationUpdate(location: Location) {
