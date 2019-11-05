@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         instance = this
 
         setupLastLocationButton()
-        setupPeriodicUpdatesButton()
+        setupStartPeriodicUpdatesButton()
+        setupStopPeriodicUpdatesButton()
         setupDisplayOnMapButton()
         setupLocationRendering()
     }
@@ -38,9 +39,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupPeriodicUpdatesButton() {
-        periodicUpdatesButton.setOnClickListener {
-            locationDataSource.activatePeriodicUpdates()
+    private fun setupStartPeriodicUpdatesButton() {
+        startPeriodicUpdatesButton.setOnClickListener {
+            locationDataSource.startPeriodicUpdates()
+        }
+    }
+
+    private fun setupStopPeriodicUpdatesButton() {
+        stopPeriodicUpdatesButton.setOnClickListener {
+            locationDataSource.stopPeriodicUpdates()
         }
     }
 

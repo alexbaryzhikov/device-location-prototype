@@ -5,5 +5,6 @@
     <string name="display_on_map">Display on map</string>
     <string name="update_time">Update time</string>
     <string name="last_location">Last known location</string>
-    <string name="periodic_updates">Periodic location updates</string>
+    <string name="start_periodic_updates">Start periodic updates</string>
+    <string name="stop_periodic_updates">Stop periodic updates</string>
 </resources>

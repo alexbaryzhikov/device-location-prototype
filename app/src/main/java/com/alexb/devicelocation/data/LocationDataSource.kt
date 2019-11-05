@@ -5,10 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alexb.devicelocation.di.Dependencies
-import com.alexb.devicelocation.framework.location.LocationRequestPriority
 import com.alexb.devicelocation.framework.location.LocationSupervisor
-import com.alexb.devicelocation.framework.location.LocationSupervisor.Companion.DEFAULT_LOCATION_REQUEST_PRIORITY
-import com.alexb.devicelocation.framework.location.LocationSupervisor.Companion.DEFAULT_LOCATION_UPDATE_INTERVAL
+import com.alexb.devicelocation.framework.location.LocationUpdateSettings
 
 class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
 
@@ -21,11 +19,12 @@ class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
         locationSupervisor.requestLastLocation(::updateLocation)
     }
 
-    fun activatePeriodicUpdates(
-        interval: Long = DEFAULT_LOCATION_UPDATE_INTERVAL,
-        priority: LocationRequestPriority = DEFAULT_LOCATION_REQUEST_PRIORITY
-    ) {
-        locationSupervisor.activatePeriodicUpdates(interval, priority, ::updateLocation)
+    fun startPeriodicUpdates(settings: LocationUpdateSettings = LocationUpdateSettings.DEFAULT) {
+        locationSupervisor.startPeriodicUpdates(settings, ::updateLocation)
+    }
+
+    fun stopPeriodicUpdates() {
+        locationSupervisor.stopPeriodicUpdates()
     }
 
     private fun updateLocation(location: Location) {
