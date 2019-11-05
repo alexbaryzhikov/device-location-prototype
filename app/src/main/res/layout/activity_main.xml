@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
         android:text="@string/longitude"
-        app:layout_constraintBottom_toTopOf="@id/lastUpdateCaption"
+        app:layout_constraintBottom_toTopOf="@id/updateTimeCaption"
         app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toBottomOf="@id/latitudeCaption" />
@@ -61,37 +61,48 @@
         tools:text="12345" />
 
     <TextView
-        android:id="@+id/lastUpdateCaption"
+        android:id="@+id/updateTimeCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
-        android:text="@string/last_update"
-        app:layout_constraintBottom_toTopOf="@id/displayOnMapButton"
+        android:text="@string/update_time"
+        app:layout_constraintBottom_toTopOf="@id/lastLocationButton"
         app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toBottomOf="@id/longitudeCaption" />
 
     <TextView
-        android:id="@+id/lastUpdateTextView"
+        android:id="@+id/updateTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
         android:text=""
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/lastUpdateCaption"
+        app:layout_constraintBaseline_toBaselineOf="@id/updateTimeCaption"
         app:layout_constraintStart_toEndOf="@id/verticalGuideline"
         tools:text="12345" />
+
+    <Button
+        android:id="@+id/lastLocationButton"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_big"
+        android:text="@string/last_location"
+        app:layout_constraintBottom_toTopOf="@id/displayOnMapButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/updateTimeCaption" />
 
     <Button
         android:id="@+id/displayOnMapButton"
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_small"
         android:text="@string/display_on_map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lastUpdateCaption" />
+        app:layout_constraintTop_toBottomOf="@id/lastLocationButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

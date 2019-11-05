@@ -3,5 +3,6 @@
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="display_on_map">Display on map</string>
-    <string name="last_update">Last update</string>
+    <string name="update_time">Update time</string>
+    <string name="last_location">Last known location</string>
 </resources>
