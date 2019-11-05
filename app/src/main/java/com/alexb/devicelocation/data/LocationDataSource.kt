@@ -1,5 +1,6 @@
 package com.alexb.devicelocation.data
 
+import android.content.Context
 import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -19,8 +20,11 @@ class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
         locationSupervisor.requestLastLocation(::updateLocation)
     }
 
-    fun startPeriodicUpdates(settings: LocationUpdateSettings = LocationUpdateSettings.DEFAULT) {
-        locationSupervisor.startPeriodicUpdates(settings, ::updateLocation)
+    fun startPeriodicUpdates(
+        context: Context,
+        settings: LocationUpdateSettings = LocationUpdateSettings.DEFAULT
+    ) {
+        locationSupervisor.startPeriodicUpdates(context, settings, ::updateLocation)
     }
 
     fun stopPeriodicUpdates() {

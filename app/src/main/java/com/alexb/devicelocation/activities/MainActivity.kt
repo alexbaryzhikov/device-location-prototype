@@ -1,12 +1,12 @@
-package com.alexb.devicelocation
+package com.alexb.devicelocation.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.alexb.devicelocation.R
 import com.alexb.devicelocation.di.Dependencies
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,19 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Dependencies.appContext = applicationContext
-        instance = this
-
         setupLastLocationButton()
         setupStartPeriodicUpdatesButton()
         setupStopPeriodicUpdatesButton()
         setupDisplayOnMapButton()
         setupLocationRendering()
-    }
-
-    override fun onDestroy() {
-        instance = null
-        super.onDestroy()
     }
 
     private fun setupLastLocationButton() {
@@ -41,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupStartPeriodicUpdatesButton() {
         startPeriodicUpdatesButton.setOnClickListener {
-            locationDataSource.startPeriodicUpdates()
+            locationDataSource.startPeriodicUpdates(this)
         }
     }
 
@@ -80,11 +72,5 @@ class MainActivity : AppCompatActivity() {
         latitudeTextView.text = location.latitude.toString()
         longitudeTextView.text = location.longitude.toString()
         updateTimeTextView.text = Dependencies.localTimeFormatter.format(location.time)
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
-
-        var instance: Activity? = null
     }
 }

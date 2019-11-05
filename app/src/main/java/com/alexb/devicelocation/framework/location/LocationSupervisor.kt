@@ -1,11 +1,14 @@
 package com.alexb.devicelocation.framework.location
 
+import android.app.Activity
+import android.content.Context
 import android.location.Location
 import android.os.Looper
 import android.util.Log
-import com.alexb.devicelocation.MainActivity
+import com.alexb.devicelocation.activities.SettingsResolutionActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 class LocationSupervisor(
@@ -13,6 +16,14 @@ class LocationSupervisor(
     private val settingsClient: SettingsClient
 ) {
 
+    private val handler = CoroutineExceptionHandler { _, throwable ->
+        Log.e(TAG, "Exception in coroutine scope", throwable)
+    }
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default + handler)
+    private var settingsException: ResolvableApiException? = null
+    private var settingsResolutionJob: Job? = null
+    private var settingsResolutionResult: CompletableDeferred<Boolean>? = null
+    private var settingsResolved = false
     private var locationCallback: LocationCallback? = null
 
     fun requestLastLocation(updateLocation: (Location) -> Unit) {
@@ -26,33 +37,16 @@ class LocationSupervisor(
     }
 
     fun startPeriodicUpdates(
+        context: Context,
         settings: LocationUpdateSettings,
         updateLocation: (Location) -> Unit
     ) {
         stopPeriodicUpdates()
-        val locationRequest = locationRequest(settings)
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        settingsClient.checkLocationSettings(builder.build()).apply {
-            addOnSuccessListener {
-                Log.d(TAG, "Start periodic updates")
-                locationCallback = locationCallback(updateLocation)
-                fusedLocationClient.requestLocationUpdates(
-                    locationRequest,
-                    locationCallback,
-                    Looper.getMainLooper()
-                )
-            }
-            addOnFailureListener { exception ->
-                Log.e(TAG, "Location settings are not satisfied: $exception")
-                if (exception is ResolvableApiException) {
-                    runCatching {
-                        exception.startResolutionForResult(
-                            MainActivity.instance,
-                            REQUEST_CHECK_SETTINGS
-                        )
-                    }
-                }
-            }
+        settingsResolutionJob?.cancel()
+        settingsResolutionJob = scope.launch {
+            val locationRequest = locationRequest(settings)
+            resolveSettings(context, locationRequest)
+            startUpdates(locationRequest, updateLocation)
         }
     }
 
@@ -69,6 +63,65 @@ class LocationSupervisor(
             interval = settings.interval
             priority = settings.priority.id
             maxWaitTime = settings.maxWaitTime
+        }
+    }
+
+    private suspend fun resolveSettings(context: Context, locationRequest: LocationRequest) {
+        val locationSettingsRequest = settingsRequest(locationRequest)
+        settingsResolutionResult = CompletableDeferred()
+        settingsClient.checkLocationSettings(locationSettingsRequest)
+            .addOnSuccessListener {
+                settingsResolutionResult?.complete(true)
+            }
+            .addOnFailureListener { exception ->
+                promptUserToChangeSettings(context, exception)
+            }
+        settingsResolutionResult?.await()?.let { result ->
+            settingsResolved = result
+        }
+    }
+
+    private fun settingsRequest(locationRequest: LocationRequest): LocationSettingsRequest {
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        return builder.build()
+    }
+
+    private fun promptUserToChangeSettings(context: Context, exception: Exception) {
+        Log.e(TAG, "Location settings are not satisfied: $exception")
+        if (exception is ResolvableApiException) {
+            settingsException = exception
+            SettingsResolutionActivity.start(context)
+        }
+    }
+
+    fun startSettingsResolution(activity: Activity) {
+        runCatching {
+            settingsException?.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
+        }
+    }
+
+    fun onSettingsResolved() {
+        Log.d(TAG, "Location settings resolved")
+        settingsResolutionResult?.complete(true)
+    }
+
+    fun onSettingsResolutionFailed() {
+        Log.e(TAG, "Failed to resolve location settings")
+        settingsResolutionResult?.complete(false)
+    }
+
+    private fun startUpdates(
+        locationRequest: LocationRequest,
+        updateLocation: (Location) -> Unit
+    ) {
+        if (settingsResolved) {
+            Log.d(TAG, "Start periodic updates")
+            locationCallback = locationCallback(updateLocation)
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
         }
     }
 

@@ -21,7 +21,7 @@ object Dependencies {
         dateTimeUtils.localTimeFormatter()
     }
 
-    private val locationSupervisor: LocationSupervisor by lazy {
+    val locationSupervisor: LocationSupervisor by lazy {
         LocationSupervisor(fusedLocationClient, locationSettingsClient)
     }
 
