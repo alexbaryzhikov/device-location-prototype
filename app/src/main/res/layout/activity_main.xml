@@ -89,17 +89,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big"
         android:text="@string/last_location"
-        app:layout_constraintBottom_toTopOf="@id/periodicLocationUpdatesButton"
+        app:layout_constraintBottom_toTopOf="@id/periodicUpdatesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/updateTimeCaption" />
 
     <Button
-        android:id="@+id/periodicLocationUpdatesButton"
+        android:id="@+id/periodicUpdatesButton"
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
-        android:text="@string/periodic_location_updates"
+        android:text="@string/periodic_updates"
         app:layout_constraintBottom_toTopOf="@id/displayOnMapButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +114,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/periodicLocationUpdatesButton" />
+        app:layout_constraintTop_toBottomOf="@id/periodicUpdatesButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

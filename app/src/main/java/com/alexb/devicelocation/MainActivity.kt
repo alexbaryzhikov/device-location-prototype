@@ -1,5 +1,6 @@
 package com.alexb.devicelocation
 
+import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
@@ -18,15 +19,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Dependencies.appContext = applicationContext
+        instance = this
 
         setupLastLocationButton()
+        setupPeriodicUpdatesButton()
         setupDisplayOnMapButton()
         setupLocationRendering()
     }
 
+    override fun onDestroy() {
+        instance = null
+        super.onDestroy()
+    }
+
     private fun setupLastLocationButton() {
         lastLocationButton.setOnClickListener {
-            locationDataSource.activateLastLocationMode()
+            locationDataSource.requestLastLocation()
+        }
+    }
+
+    private fun setupPeriodicUpdatesButton() {
+        periodicUpdatesButton.setOnClickListener {
+            locationDataSource.activatePeriodicUpdates()
         }
     }
 
@@ -40,10 +54,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayOnMap(latitude: Double, longitude: Double, zoom: Int = 18) {
-        val gmmIntentUri = Uri.parse("geo:$latitude,$longitude?z=$zoom")
-        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.setPackage("com.google.android.apps.maps")
+        val mapIntent = mapIntent(latitude, longitude, zoom)
         startActivity(mapIntent)
+    }
+
+    private fun mapIntent(latitude: Double, longitude: Double, zoom: Int): Intent {
+        val gmmIntentUri = Uri.parse("geo:$latitude,$longitude?z=$zoom")
+        return Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            .setPackage("com.google.android.apps.maps")
     }
 
     private fun setupLocationRendering() {
@@ -59,5 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+
+        var instance: Activity? = null
     }
 }

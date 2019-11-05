@@ -4,7 +4,9 @@ import android.content.Context
 import com.alexb.devicelocation.data.LocationDataSource
 import com.alexb.devicelocation.framework.location.LocationSupervisor
 import com.alexb.devicelocation.utils.DateTimeUtils
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.SettingsClient
 import java.text.SimpleDateFormat
 
 object Dependencies {
@@ -20,11 +22,15 @@ object Dependencies {
     }
 
     private val locationSupervisor: LocationSupervisor by lazy {
-        LocationSupervisor(fusedLocationClient)
+        LocationSupervisor(fusedLocationClient, locationSettingsClient)
     }
 
-    private val fusedLocationClient by lazy {
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(appContext)
+    }
+
+    private val locationSettingsClient: SettingsClient by lazy {
+        LocationServices.getSettingsClient(appContext)
     }
 
     private val dateTimeUtils: DateTimeUtils by lazy {
