@@ -20,11 +20,7 @@ class LogWriter(context: Context) {
     private val writer: PrintWriter? by lazy { writer() }
 
     init {
-        scope.launch {
-            for (line in channel) {
-                runCatching { writeLineToFile(line) }
-            }
-        }
+        startWriterCoroutine()
     }
 
     fun writeLine(line: String) {
@@ -38,6 +34,14 @@ class LogWriter(context: Context) {
             val bufferedWriter = BufferedWriter(fileWriter)
             PrintWriter(bufferedWriter)
         }.getOrNull()
+    }
+
+    private fun startWriterCoroutine() {
+        scope.launch {
+            for (line in channel) {
+                runCatching { writeLineToFile(line) }
+            }
+        }
     }
 
     private fun writeLineToFile(line: String) {
