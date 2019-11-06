@@ -1,4 +1,4 @@
-package com.alexb.devicelocation.components.activities
+package com.alexb.devicelocation.framework.common
 
 import android.content.Intent
 import android.location.Location
@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.alexb.devicelocation.R
-import com.alexb.devicelocation.components.services.MonitoringService
 import com.alexb.devicelocation.di.Dependencies
 import kotlinx.android.synthetic.main.activity_main.*
 

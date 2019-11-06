@@ -1,4 +1,4 @@
-package com.alexb.devicelocation.components.services
+package com.alexb.devicelocation.framework.common
 
 import android.app.*
 import android.content.Intent
@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.alexb.devicelocation.R
-import com.alexb.devicelocation.components.activities.MainActivity
 
 class MonitoringService : Service() {
 
@@ -39,14 +38,13 @@ class MonitoringService : Service() {
     private fun notificationChannel(): NotificationChannel {
         return NotificationChannel(
             CHANNEL_ID,
-            "Device location",
+            CHANNEL_NAME,
             NotificationManager.IMPORTANCE_DEFAULT
-        )
-            .apply { setSound(null, null) }
+        ).apply { setSound(null, null) }
     }
 
     private fun notification(): Notification? {
-        val notificationIntent = Intent(this, MainActivity::class.java)
+        val notificationIntent = Intent(applicationContext, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(getString(R.string.monitoring_service))
@@ -57,7 +55,8 @@ class MonitoringService : Service() {
 
     companion object {
         private const val TAG = "MonitoringService"
-        private const val CHANNEL_ID = "MonitoringServiceChannel"
+        private const val CHANNEL_ID = "DeviceLocationChannel"
+        private const val CHANNEL_NAME = "Device location"
         private const val NOTIFICATION_ID = 200
     }
 }

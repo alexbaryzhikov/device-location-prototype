@@ -20,7 +20,7 @@ class LogWriter(context: Context) {
     private val writer: PrintWriter? by lazy { writer() }
 
     init {
-        startWriterCoroutine()
+        startWriterJob()
     }
 
     fun writeLine(line: String) {
@@ -36,7 +36,7 @@ class LogWriter(context: Context) {
         }.getOrNull()
     }
 
-    private fun startWriterCoroutine() {
+    private fun startWriterJob() {
         scope.launch {
             for (line in channel) {
                 runCatching { writeLineToFile(line) }

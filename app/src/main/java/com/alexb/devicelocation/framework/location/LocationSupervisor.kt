@@ -5,7 +5,6 @@ import android.content.Context
 import android.location.Location
 import android.os.Looper
 import android.util.Log
-import com.alexb.devicelocation.components.activities.SettingsResolutionActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import kotlinx.coroutines.*
@@ -41,7 +40,7 @@ class LocationSupervisor(
         settings: LocationUpdateSettings,
         updateLocation: (Location) -> Unit
     ) {
-        startOrReplaceJob {
+        startOrReplaceUpdatesJob {
             stopPeriodicUpdates()
             val locationRequest = locationRequest(settings)
             resolveSettings(context, locationRequest)
@@ -73,7 +72,7 @@ class LocationSupervisor(
         settingsResolutionResult?.complete(false)
     }
 
-    private fun startOrReplaceJob(block: suspend CoroutineScope.() -> Unit) {
+    private fun startOrReplaceUpdatesJob(block: suspend CoroutineScope.() -> Unit) {
         startUpdatesJob?.cancel()
         startUpdatesJob = scope.launch { block() }
     }
