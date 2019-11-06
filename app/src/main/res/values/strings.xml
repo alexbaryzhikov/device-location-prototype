@@ -10,6 +10,6 @@
     <string name="start_service">Start service</string>
     <string name="stop_service">Stop service</string>
     <string name="monitoring_service">Monitoring service</string>
-    <string name="interval">Interval</string>
-    <string name="max_wait_time">Max wait time</string>
+    <string name="interval">Interval (s)</string>
+    <string name="max_wait_time">Max wait time (s)</string>
 </resources>
