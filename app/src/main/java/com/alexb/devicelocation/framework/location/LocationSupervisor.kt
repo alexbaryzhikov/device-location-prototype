@@ -5,7 +5,7 @@ import android.content.Context
 import android.location.Location
 import android.os.Looper
 import android.util.Log
-import com.alexb.devicelocation.activities.SettingsResolutionActivity
+import com.alexb.devicelocation.components.activities.SettingsResolutionActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import kotlinx.coroutines.*
@@ -139,7 +139,7 @@ class LocationSupervisor(
 
     companion object {
 
-        const val REQUEST_CHECK_SETTINGS = 23
+        const val REQUEST_CHECK_SETTINGS = 100
 
         val DEFAULT_LOCATION_UPDATE_INTERVAL = TimeUnit.SECONDS.toMillis(5)
         val DEFAULT_LOCATION_MAX_WAIT_TIME = TimeUnit.SECONDS.toMillis(20)

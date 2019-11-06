@@ -1,4 +1,4 @@
-package com.alexb.devicelocation.activities
+package com.alexb.devicelocation.components.activities
 
 import android.app.Activity
 import android.content.Context

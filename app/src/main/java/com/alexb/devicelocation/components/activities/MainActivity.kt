@@ -1,4 +1,4 @@
-package com.alexb.devicelocation.activities
+package com.alexb.devicelocation.components.activities
 
 import android.content.Intent
 import android.location.Location
@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.alexb.devicelocation.R
+import com.alexb.devicelocation.components.services.MonitoringService
 import com.alexb.devicelocation.di.Dependencies
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         setupStartPeriodicUpdatesButton()
         setupStopPeriodicUpdatesButton()
         setupDisplayOnMapButton()
+        setupStartServiceButton()
+        setupStopServiceButton()
+
         setupLocationRendering()
     }
 
@@ -61,6 +65,18 @@ class MainActivity : AppCompatActivity() {
         val gmmIntentUri = Uri.parse("geo:$latitude,$longitude?z=$zoom")
         return Intent(Intent.ACTION_VIEW, gmmIntentUri)
             .setPackage("com.google.android.apps.maps")
+    }
+
+    private fun setupStartServiceButton() {
+        startServiceButton.setOnClickListener {
+            startService(Intent(applicationContext, MonitoringService::class.java))
+        }
+    }
+
+    private fun setupStopServiceButton() {
+        stopServiceButton.setOnClickListener {
+            stopService(Intent(applicationContext, MonitoringService::class.java))
+        }
     }
 
     private fun setupLocationRendering() {

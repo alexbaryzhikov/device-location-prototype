@@ -5,6 +5,7 @@
     package="com.alexb.devicelocation">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".App"
@@ -16,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="com.alexb.devicelocation.components.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,8 +25,10 @@
         </activity>
 
         <activity
-            android:name=".activities.SettingsResolutionActivity"
+            android:name="com.alexb.devicelocation.components.activities.SettingsResolutionActivity"
             android:theme="@style/TransparentTheme" />
+
+        <service android:name=".components.services.MonitoringService" />
 
     </application>
 

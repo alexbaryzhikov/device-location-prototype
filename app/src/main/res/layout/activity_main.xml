@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".components.activities.MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/verticalGuideline"
@@ -122,9 +122,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:text="@string/display_on_map"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/startServiceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stopPeriodicUpdatesButton" />
+
+    <Button
+        android:id="@+id/startServiceButton"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_big"
+        android:text="@string/start_service"
+        app:layout_constraintBottom_toTopOf="@id/stopServiceButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/displayOnMapButton" />
+
+    <Button
+        android:id="@+id/stopServiceButton"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="@string/stop_service"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/startServiceButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

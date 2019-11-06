@@ -7,4 +7,7 @@
     <string name="last_location">Last known location</string>
     <string name="start_periodic_updates">Start periodic updates</string>
     <string name="stop_periodic_updates">Stop periodic updates</string>
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
+    <string name="monitoring_service">Monitoring service</string>
 </resources>
