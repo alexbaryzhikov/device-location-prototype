@@ -40,10 +40,10 @@ class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
     }
 
     private fun logLocationUpdate(location: Location) {
-        val lat = location.latitude
-        val lon = location.longitude
         val time = Dependencies.localTimeFormatter.format(location.time)
-        Log.d(TAG, "Location: lat = $lat, lon = $lon, update time = $time")
+        val coordinates = "latitude = ${location.latitude}, longitude = ${location.longitude}"
+        val accuracy = if (location.hasAccuracy()) ", accuracy = ${location.accuracy}" else ""
+        Log.d(TAG, "[$time] $coordinates$accuracy")
     }
 
     companion object {
