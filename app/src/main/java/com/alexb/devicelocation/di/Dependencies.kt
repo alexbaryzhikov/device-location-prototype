@@ -3,6 +3,7 @@ package com.alexb.devicelocation.di
 import android.content.Context
 import com.alexb.devicelocation.data.LocationDataSource
 import com.alexb.devicelocation.framework.location.LocationSupervisor
+import com.alexb.devicelocation.framework.logging.LogWriter
 import com.alexb.devicelocation.utils.DateTimeUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -14,7 +15,7 @@ object Dependencies {
     lateinit var appContext: Context
 
     val locationDataSource: LocationDataSource by lazy {
-        LocationDataSource(locationSupervisor)
+        LocationDataSource(locationSupervisor, logWriter)
     }
 
     val localTimeFormatter: SimpleDateFormat by lazy {
@@ -35,5 +36,9 @@ object Dependencies {
 
     private val dateTimeUtils: DateTimeUtils by lazy {
         DateTimeUtils()
+    }
+
+    private val logWriter: LogWriter by lazy {
+        LogWriter(appContext)
     }
 }

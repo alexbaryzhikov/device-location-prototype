@@ -8,8 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import com.alexb.devicelocation.di.Dependencies
 import com.alexb.devicelocation.framework.location.LocationSupervisor
 import com.alexb.devicelocation.framework.location.LocationUpdateSettings
+import com.alexb.devicelocation.framework.logging.LogWriter
 
-class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
+class LocationDataSource(
+    private val locationSupervisor: LocationSupervisor,
+    private val logWriter: LogWriter
+) {
 
     var lastLocation: Location? = null
     private val locationLiveData = MutableLiveData<Location>()
@@ -40,10 +44,16 @@ class LocationDataSource(private val locationSupervisor: LocationSupervisor) {
     }
 
     private fun logLocationUpdate(location: Location) {
+        val logLine = logLine(location)
+        Log.d(TAG, logLine)
+        logWriter.writeLine(logLine)
+    }
+
+    private fun logLine(location: Location): String {
         val time = Dependencies.localTimeFormatter.format(location.time)
         val coordinates = "latitude = ${location.latitude}, longitude = ${location.longitude}"
         val accuracy = if (location.hasAccuracy()) ", accuracy = ${location.accuracy}" else ""
-        Log.d(TAG, "[$time] $coordinates$accuracy")
+        return "[$time] $coordinates$accuracy"
     }
 
     companion object {
