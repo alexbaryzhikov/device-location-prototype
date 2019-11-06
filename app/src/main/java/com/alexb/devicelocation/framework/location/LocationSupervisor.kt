@@ -20,8 +20,8 @@ class LocationSupervisor(
         Log.e(TAG, "Exception in coroutine scope", throwable)
     }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default + handler)
+    private var startUpdatesJob: Job? = null
     private var settingsException: ResolvableApiException? = null
-    private var settingsResolutionJob: Job? = null
     private var settingsResolutionResult: CompletableDeferred<Boolean>? = null
     private var settingsResolved = false
     private var locationCallback: LocationCallback? = null
@@ -42,8 +42,8 @@ class LocationSupervisor(
         updateLocation: (Location) -> Unit
     ) {
         stopPeriodicUpdates()
-        settingsResolutionJob?.cancel()
-        settingsResolutionJob = scope.launch {
+        startUpdatesJob?.cancel()
+        startUpdatesJob = scope.launch {
             val locationRequest = locationRequest(settings)
             resolveSettings(context, locationRequest)
             startUpdates(locationRequest, updateLocation)
