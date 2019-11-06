@@ -88,61 +88,109 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginBottom="@dimen/margin_small"
         android:text="@string/last_location"
-        app:layout_constraintBottom_toTopOf="@id/startPeriodicUpdatesButton"
+        app:layout_constraintBottom_toTopOf="@id/displayOnMapButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/updateTimeCaption" />
 
     <Button
+        android:id="@+id/displayOnMapButton"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:text="@string/display_on_map"
+        app:layout_constraintBottom_toTopOf="@id/intervalEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lastLocationButton" />
+
+    <TextView
+        android:id="@+id/intervalCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:labelFor="@id/intervalEditText"
+        android:text="@string/interval"
+        app:layout_constraintBaseline_toBaselineOf="@id/intervalEditText"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline" />
+
+    <EditText
+        android:id="@+id/intervalEditText"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/maxWaitTimeEditText"
+        app:layout_constraintStart_toEndOf="@id/verticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/displayOnMapButton"
+        tools:text="123" />
+
+    <TextView
+        android:id="@+id/maxWaitTimeCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:labelFor="@id/maxWaitTimeEditText"
+        android:text="@string/max_wait_time"
+        app:layout_constraintBaseline_toBaselineOf="@id/maxWaitTimeEditText"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline" />
+
+    <EditText
+        android:id="@+id/maxWaitTimeEditText"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/startPeriodicUpdatesButton"
+        app:layout_constraintStart_toEndOf="@id/verticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/intervalEditText"
+        tools:text="123" />
+
+    <Button
         android:id="@+id/startPeriodicUpdatesButton"
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_small"
         android:text="@string/start_periodic_updates"
         app:layout_constraintBottom_toTopOf="@id/stopPeriodicUpdatesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lastLocationButton" />
+        app:layout_constraintTop_toBottomOf="@id/maxWaitTimeEditText" />
 
     <Button
         android:id="@+id/stopPeriodicUpdatesButton"
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_small"
         android:text="@string/stop_periodic_updates"
-        app:layout_constraintBottom_toTopOf="@id/displayOnMapButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/startPeriodicUpdatesButton" />
-
-    <Button
-        android:id="@+id/displayOnMapButton"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
-        android:text="@string/display_on_map"
         app:layout_constraintBottom_toTopOf="@id/startServiceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stopPeriodicUpdatesButton" />
+        app:layout_constraintTop_toBottomOf="@id/startPeriodicUpdatesButton" />
 
     <Button
         android:id="@+id/startServiceButton"
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginBottom="@dimen/margin_small"
         android:text="@string/start_service"
         app:layout_constraintBottom_toTopOf="@id/stopServiceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/displayOnMapButton" />
+        app:layout_constraintTop_toBottomOf="@id/stopPeriodicUpdatesButton" />
 
     <Button
         android:id="@+id/stopServiceButton"
         android:layout_width="@dimen/button_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_small"
         android:text="@string/stop_service"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
