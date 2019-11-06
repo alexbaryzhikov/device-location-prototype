@@ -41,9 +41,8 @@ class LocationSupervisor(
         settings: LocationUpdateSettings,
         updateLocation: (Location) -> Unit
     ) {
-        stopPeriodicUpdates()
-        startUpdatesJob?.cancel()
-        startUpdatesJob = scope.launch {
+        startOrReplaceJob {
+            stopPeriodicUpdates()
             val locationRequest = locationRequest(settings)
             resolveSettings(context, locationRequest)
             startUpdates(locationRequest, updateLocation)
@@ -56,6 +55,27 @@ class LocationSupervisor(
             Log.d(TAG, "Stop periodic updates")
             fusedLocationClient.removeLocationUpdates(callback)
         }
+    }
+
+    fun startSettingsResolution(activity: Activity) {
+        runCatching {
+            settingsException?.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
+        }
+    }
+
+    fun onSettingsResolved() {
+        Log.d(TAG, "Location settings resolved")
+        settingsResolutionResult?.complete(true)
+    }
+
+    fun onSettingsResolutionFailed() {
+        Log.e(TAG, "Failed to resolve location settings")
+        settingsResolutionResult?.complete(false)
+    }
+
+    private fun startOrReplaceJob(block: suspend CoroutineScope.() -> Unit) {
+        startUpdatesJob?.cancel()
+        startUpdatesJob = scope.launch { block() }
     }
 
     private fun locationRequest(settings: LocationUpdateSettings): LocationRequest {
@@ -92,22 +112,6 @@ class LocationSupervisor(
             settingsException = exception
             SettingsResolutionActivity.start(context)
         }
-    }
-
-    fun startSettingsResolution(activity: Activity) {
-        runCatching {
-            settingsException?.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
-        }
-    }
-
-    fun onSettingsResolved() {
-        Log.d(TAG, "Location settings resolved")
-        settingsResolutionResult?.complete(true)
-    }
-
-    fun onSettingsResolutionFailed() {
-        Log.e(TAG, "Failed to resolve location settings")
-        settingsResolutionResult?.complete(false)
     }
 
     private fun startUpdates(
