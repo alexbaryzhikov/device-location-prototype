@@ -51,9 +51,9 @@ class LocationDataSource(
 
     private fun logLine(location: Location): String {
         val time = Dependencies.localTimeFormatter.format(location.time)
-        val coordinates = "latitude = ${location.latitude}, longitude = ${location.longitude}"
-        val accuracy = if (location.hasAccuracy()) ", accuracy = ${location.accuracy}" else ""
-        return "[$time] $coordinates$accuracy"
+        val coordinates = "(${location.latitude}, ${location.longitude})"
+        val accuracy = if (location.hasAccuracy()) "~ ${location.accuracy}" else ""
+        return "[$time] $coordinates $accuracy"
     }
 
     companion object {

@@ -36,9 +36,19 @@ class LogWriter(context: Context) {
     }
 
     private fun writeLineToFile(line: String) {
+        checkFile()
         writer()?.run {
             println(line)
             flush()
+        }
+    }
+
+    private fun checkFile() {
+        val file = File(logPath, logFileName)
+        if (!file.exists()) {
+            runCatching {
+                writer = createWriter()
+            }
         }
     }
 
