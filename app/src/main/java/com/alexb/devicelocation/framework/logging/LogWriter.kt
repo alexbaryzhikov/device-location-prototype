@@ -17,7 +17,7 @@ class LogWriter(context: Context) {
     private val logPath = context.getExternalFilesDir(null)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val channel = Channel<String>(BUFFERED)
-    private val writer: PrintWriter? by lazy { writer() }
+    private var writer: PrintWriter? = null
 
     init {
         scope.launch {
@@ -31,20 +31,26 @@ class LogWriter(context: Context) {
         channel.offer(line)
     }
 
-    private fun writer(): PrintWriter? {
-        return runCatching {
-            val file = File(logPath, logFileName)
-            val fileWriter = FileWriter(file, file.exists())
-            val bufferedWriter = BufferedWriter(fileWriter)
-            PrintWriter(bufferedWriter)
-        }.getOrNull()
-    }
 
     private fun writeLineToFile(line: String) {
-        writer?.run {
+        writer()?.run {
             println(line)
             flush()
         }
+    }
+
+    private fun writer(): PrintWriter? {
+        return writer ?: runCatching {
+            writer = createWriter()
+            writer
+        }.getOrNull()
+    }
+
+    private fun createWriter(): PrintWriter {
+        val file = File(logPath, logFileName)
+        val fileWriter = FileWriter(file, file.exists())
+        val bufferedWriter = BufferedWriter(fileWriter)
+        return PrintWriter(bufferedWriter)
     }
 
     companion object {
