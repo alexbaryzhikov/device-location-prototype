@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".App"
+        android:name=".framework.common.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.alexb.devicelocation.components.activities.MainActivity">
+        <activity android:name="com.alexb.devicelocation.framework.common.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,10 +26,10 @@
         </activity>
 
         <activity
-            android:name="com.alexb.devicelocation.components.activities.SettingsResolutionActivity"
+            android:name="com.alexb.devicelocation.framework.location.SettingsResolutionActivity"
             android:theme="@style/TransparentTheme" />
 
-        <service android:name=".components.services.MonitoringService" />
+        <service android:name="com.alexb.devicelocation.framework.common.MonitoringService" />
 
     </application>
 

@@ -20,17 +20,21 @@ class LogWriter(context: Context) {
     private var writer: PrintWriter? = null
 
     init {
-        scope.launch {
-            for (line in channel) {
-                runCatching { writeLineToFile(line) }
-            }
-        }
+        startWriterJob()
     }
 
     fun writeLine(line: String) {
         channel.offer(line)
     }
 
+
+    private fun startWriterJob() {
+        scope.launch {
+            for (line in channel) {
+                runCatching { writeLineToFile(line) }
+            }
+        }
+    }
 
     private fun writeLineToFile(line: String) {
         writer()?.run {

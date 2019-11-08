@@ -1,4 +1,4 @@
-package com.alexb.devicelocation.components.activities
+package com.alexb.devicelocation.framework.location
 
 import android.app.Activity
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.alexb.devicelocation.di.Dependencies
-import com.alexb.devicelocation.framework.location.LocationSupervisor
 
 class SettingsResolutionActivity : AppCompatActivity() {
 
