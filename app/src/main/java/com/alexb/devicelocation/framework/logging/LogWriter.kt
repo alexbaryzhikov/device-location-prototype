@@ -27,7 +27,6 @@ class LogWriter(context: Context) {
         channel.offer(line)
     }
 
-
     private fun startWriterJob() {
         scope.launch {
             for (line in channel) {
