@@ -1,11 +1,15 @@
 package com.alexb.devicelocation.framework.common
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.alexb.devicelocation.R
 import com.alexb.devicelocation.di.Dependencies
@@ -24,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        satisfyPermissions()
+
         setupLastLocationButton()
         setupDisplayOnMapButton()
         setupStartPeriodicUpdatesButton()
@@ -32,6 +38,32 @@ class MainActivity : AppCompatActivity() {
         setupStopServiceButton()
 
         setupLocationRendering()
+    }
+
+    private fun satisfyPermissions() {
+        val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+        val permissions = packageInfo.requestedPermissions ?: return
+        val satisfied = permissions.all {
+            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
+        }
+        if (!satisfied) {
+            ActivityCompat.requestPermissions(this, permissions, 0)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        val deniedPermissions = permissions.filterIndexed { i, _ ->
+            grantResults[i] == PackageManager.PERMISSION_DENIED
+        }
+        if (deniedPermissions.isEmpty()) {
+            Log.d(TAG, "Permissions granted")
+        } else {
+            Log.e(TAG, "Denied permissions: $deniedPermissions")
+        }
     }
 
     override fun onStart() {
@@ -150,6 +182,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val TAG = "MainActivity"
         private const val UPDATE_INTERVAL_KEY = "UpdateInterval"
         private const val MAX_WAIT_TIME_KEY = "MaxWaitTime"
     }
